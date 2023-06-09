@@ -165,16 +165,16 @@ To ensure that Metro, the JavaScript bundler used by React Native, recognizes th
    5. In your `android/app/build.gradle` file, add the following lines inside the `android` block:
 
    ```gradle
-   android {
-   // ...
+      android {
+         // ...
 
-   // Add this block
-   sourceSets {
-      main {
-         assets.srcDirs += 'src/main/assets'
+         // Add this block
+         sourceSets {
+            main {
+               assets.srcDirs += 'src/main/assets'
+            }
+         }
       }
-   }
-   }
    ```
 
    6. In your React Native script, you can use the `react-native-fs` library to read the file from the assets directory. Update your script to the following:
@@ -327,5 +327,3 @@ Feel free to explore and expand upon this project to suit your specific needs. H
 Please note that this documentation assumes you have basic knowledge of Rust, WebAssembly, and React Native development. If you are new to any of these technologies, it is recommended to familiarize yourself with them before proceeding with this project.
 
 If you encounter any issues or have further questions, please refer to the project repository for additional documentation and support.
-
-Happy coding!
