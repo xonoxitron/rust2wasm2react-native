@@ -1,0 +1,10 @@
+[package]
+description = "rust2wasm2react-native bridge among Rust, WebAssembly and React-Native"
+edition = "2021"
+license = "MIT"
+name = "rust2wasm2react-native"
+repository = "https://github.com/xonoxitron/rust2wasm2react-native"
+version = "0.1.0"
+
+[lib]
+crate-type = ["cdylib"]
