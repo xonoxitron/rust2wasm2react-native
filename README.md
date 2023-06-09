@@ -118,6 +118,85 @@ To ensure that Metro, the JavaScript bundler used by React Native, recognizes th
 
    The `assetExts` property contains an array of file extensions that Metro considers as assets. By adding `'wasm'` to this array, Metro will recognize Wasm files as assets.
 
+## Adding static WASM files to your project
+
+### For iOS
+
+   To include a static file in your React Native project and read it from the script in iOS, you can follow these steps:
+
+   1. Create a new directory called `assets` in the root of your React Native project. This directory will hold your static files.
+
+   2. Place the file you want to read in the `assets` directory. For example, let's say you have a file named `YourFile.wasm`.
+
+   3. In Xcode, open your project workspace by navigating to the `ios` directory of your React Native project and double-clicking the `.xcworkspace` file.
+
+   4. In Xcode, right-click on your project's root folder in the project navigator, and select "Add Files to [Your Project Name]".
+
+   5. Navigate to the `assets` directory in your React Native project and select the `YourFile.wasm` file. Make sure to check the "Copy items if needed" option and select the target you want to add the file to.
+
+   6. In your React Native script, you can use the `react-native-fs` library to read the file from the assets directory. Update your script to the following:
+
+   ```tsx
+      const App = () => {
+      const loadFile = async () => {
+         try {
+            const filePath = RNFS.MainBundlePath + '/YourFile.wasm';
+
+            const fileExists = await RNFS.exists(filePath);
+            if (!fileExists) {
+            console.log('File does not exist');
+            return;
+            }
+         ...
+   ```
+
+### For Android
+
+   To include a static file in your React Native project and read it from the script, you can follow these steps:
+
+   1. Create a new directory called `assets` in the root of your React Native project. This directory will hold your static files.
+
+   2. Place the file you want to read in the `assets` directory. For example, let's say you have a file named `YourFile.wasm`.
+
+   3. In your `android/app` directory, create a new directory called `src/main/assets`. This is where the files in your React Native `assets` directory will be bundled when building the Android app.
+
+   4. Copy or move the `assets` directory from the root of your project into `android/app/src/main`. You should now have `android/app/src/main/assets`.
+
+   5. In your `android/app/build.gradle` file, add the following lines inside the `android` block:
+
+   ```gradle
+   android {
+   // ...
+
+   // Add this block
+   sourceSets {
+      main {
+         assets.srcDirs += 'src/main/assets'
+      }
+   }
+   }
+   ```
+
+   6. In your React Native script, you can use the `react-native-fs` library to read the file from the assets directory. Update your script to the following:
+
+   ```tsx
+      const App = () => {
+      const loadFile = async () => {
+         try {
+            const filePath = 'file:///android_asset/YourFile.wasm';
+
+            const fileExists = await RNFS.existsAssets(filePath);
+            if (!fileExists) {
+            console.log('File does not exist');
+            return;
+            }
+         ...
+   ```
+
+   In this example, the `YourFile.wasm` file is placed in the `assets` directory. We then read the file using the `RNFS.readFileAssets` method, passing the file path as `file:///android_asset/YourFile.wasm`. The `RNFS.existsAssets` method is used to check if the file exists.
+
+   By following these steps, you can include a static file in your React Native project and read it from the script.
+
 ## App Usage
 
 The main entry point of your React Native application is the `App.tsx` file. In this file, you can use the `react-native-webassembly` and `react-native-fs` libraries to load and interact with the Wasm module.
@@ -159,7 +238,7 @@ The main entry point of your React Native application is the `App.tsx` file. In 
         const loadWasmRemotely = async () => {
         const { data: bufferSource } = await axios({
             url:
-            'https://github.com/torch2424/wasm-by-example/raw/master/examples/hello-world/demo/assemblyscript/hello-world.wasm',
+            'https://github.com/xonoxitron/rust2wasm2react-native/blob/main/wasm/rust_lib.wasm',
             method: 'get',
             responseType: 'arraybuffer',
         });
