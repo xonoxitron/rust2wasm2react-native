@@ -83,7 +83,7 @@ function App(): JSX.Element {
 
   const loadWasmRemotely = async () => {
     const {data: bufferSource} = await axios({
-      url: 'https://github.com/torch2424/wasm-by-example/raw/master/examples/hello-world/demo/assemblyscript/hello-world.wasm',
+      url: 'https://github.com/xonoxitron/rust2wasm2react-native/blob/main/wasm/rust_lib.wasm',
       method: 'get',
       responseType: 'arraybuffer',
     });
